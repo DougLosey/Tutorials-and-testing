@@ -5,18 +5,43 @@
 		<script src="app/personnel.js"></script>
 		<script src="app/libs/angular-ui-router.min.js"></script>
 	</head>
-	<body ng-app="personnel" ng-controller="MainCtrl">
-		<div>
-			{{test}}
+	<body ng-app="personnel">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<ui-view></ui-view>
+			</div>
 		</div>
-		<div ng-repeat="person in people">
-			<span ng-click="promote(person)" style="color:blue">Promote!</span>
-			{{person.title}} - Job: {{person.Occupation}}
-			<span ng-click="demote(person)"style="color:red">Demote...</span>
-		</div>
-		<form ng-submit="addPerson()">
-			<input type="text" ng-model="title"></input>
-			<button type="submit">Hired!</button>
-		</form>
+
+		<script type="text/ng-template" id="/home.html">
+			
+			<div class="page-header">
+				<h1>Personnel</h1>
+			</div>
+			
+			<div ng-repeat="person in people">
+				<span ng-click="promote(person)" style="color:blue">Promote!</span>
+				<span><a href="#/people/{{$index}}">details</a></span>
+				{{person.title}} - Job: {{person.Occupation}}
+				<span ng-click="demote(person)"style="color:red">Demote...</span>
+			</div>
+			
+			<form ng-submit="addPerson()">
+				<input type="text" ng-model="title"></input>
+				<button type="submit">Hired!</button>
+			</form>
+		</script>
+
+		<script type="text/ng-template" id="/employeeDetails.html">
+			
+			<div class="page-header">
+				<h3>
+					{{person.title}}
+				</h3>
+			</div>
+
+			<div ng-repeat="detail in person.details">
+				{{detail}}
+			</div>
+		</script>
 	</body>
 </html>

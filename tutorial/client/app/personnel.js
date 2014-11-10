@@ -1,43 +1,88 @@
-angular.module('personnel',[])
+angular.module('personnel',['ui.router'])
+.config([
+	'$stateProvider',
+	'$urlRouterProvider',
+	function($stateProvider, $urlRouterProvider) {
+		$stateProvider
+		.state('home', {
+			url:'/home',
+			templateUrl: '/home.html',
+			controller: 'MainCtrl'
+		})
+		.state('employeeDetails', {
+			url:'/employeeDetails/{id}',
+			templateUrl:'/employeeDetails.html',
+			controller : 'EmployeeDetailsCtrl'
+		});
+
+		$urlRouterProvider.otherwise('home');
+}])
+
 .factory("people", [function() {
-	var o = {
+	var personnel = {
 		people: [
 			{title:'person1', Occupation:'Jr dev'},
 			{title:'person2', Occupation:'Sr dev'},
 			{title:'person3', Occupation:'Delivery Manager'}
 		]
 	};
+	return personnel;
+}])
+
+.factory("positions", [function() {
+	var o = {
+		positions: [
+		'Trainee',
+		'Jr dev',
+		'Sr dev',
+		'Delivery Manager'
+		]
+	};
 	return o;
 }])
+
 .controller('MainCtrl', [
 	'$scope',
 	'people',
-	function($scope, people){
-		$scope.test = 'personnelCreation';
-	
-		 $scope.people = people.people;
-						
+	'positions',
+	function($scope, people, positions){
+
+		$scope.people = people.people;
+		$scope.positions = positions.positions;
+
 		$scope.addPerson = function(){
-			if(!$scope.title || $scope.title === ''){return;}
-			$scope.people.push({title: $scope.title, Occupation: 'Trainee'});
+			if(!$scope.title){return;}
+			$scope.people.push(
+				{title: $scope.title, 
+				Occupation: $scope.positions[0],
+				details: [
+					{phone: 555-5555},
+					{hometown: "Bloomfield Hills, Mi"}
+				]
+			});
 			$scope.title = '';
 		}
 		$scope.promote = function(person){
-			if (person.Occupation == "Trainee")
-				person.Occupation = "Jr dev";
-			else if (person.Occupation == "Jr dev")
-				person.Occupation = "Sr dev";
-			else if (person.Occupation == "Sr dev")
-				person.Occupation = "Delivery Manager"
+			var i = $scope.positions.indexOf(person.Occupation);
+			console.log(i);
+			if(i<$scope.positions.length-1){
+				i++;
+			}
+			person.Occupation = $scope.positions[i];
 		}
-				$scope.demote = function(person){
-			if (person.Occupation == "Jr dev")
-				person.Occupation = "Trainee";
-			else if (person.Occupation == "Sr dev")
-				person.Occupation = "Jr dev";
-			else if (person.Occupation == "Delivery Manager")
-				person.Occupation = "Sr dev"
+		$scope.demote = function(person){
+			var i = $scope.positions.indexOf(person.Occupation);
+			console.log(i);
+			if(i>0){
+				i--;
+			}
+			person.Occupation = $scope.positions[i];
 		}
-
-
+}])
+.controller('EmployeeDetailsCtrl',[
+	'$scope',
+	'$stateParams',
+	'people',
+	function($scope,$stateParams,people){
+		$scope.person = people.people[$stateParams.id];
 }]);
