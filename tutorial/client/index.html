@@ -1,0 +1,15 @@
+<html>
+	<head>
+		<title>Personnel Creation app</title>
+		<script src="app/libs/angular.js"></script>
+		<script src="app/personnel.js"></script>
+	</head>
+	<body ng-app="personnel" ng-controller="MainCtrl">
+		<div>
+			{{test}}
+		</div>
+		<div ng-repeat="person in people">
+			{{person.title}} - Job: {{person.Occupation}}
+		</div>
+	</body>
+</html>
