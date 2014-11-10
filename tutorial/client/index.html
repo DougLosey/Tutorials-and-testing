@@ -3,13 +3,20 @@
 		<title>Personnel Creation app</title>
 		<script src="app/libs/angular.js"></script>
 		<script src="app/personnel.js"></script>
+		<script src="app/libs/angular-ui-router.min.js"></script>
 	</head>
 	<body ng-app="personnel" ng-controller="MainCtrl">
 		<div>
 			{{test}}
 		</div>
 		<div ng-repeat="person in people">
+			<span ng-click="promote(person)" style="color:blue">Promote!</span>
 			{{person.title}} - Job: {{person.Occupation}}
+			<span ng-click="demote(person)"style="color:red">Demote...</span>
 		</div>
+		<form ng-submit="addPerson()">
+			<input type="text" ng-model="title"></input>
+			<button type="submit">Hired!</button>
+		</form>
 	</body>
 </html>
