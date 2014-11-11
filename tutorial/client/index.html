@@ -20,7 +20,7 @@
 			
 			<div ng-repeat="person in people">
 				<span ng-click="promote(person)" style="color:blue">Promote!</span>
-				<span><a href="#/people/{{$index}}">details</a></span>
+				<span><a href="#/employeeDetails/{{$index}}">details</a></span>
 				{{person.title}} - Job: {{person.Occupation}}
 				<span ng-click="demote(person)"style="color:red">Demote...</span>
 			</div>
@@ -42,6 +42,15 @@
 			<div ng-repeat="detail in person.details">
 				{{detail}}
 			</div>
+
+			<form ng-submit="addDetail()" style="margin-top:30px;">
+				<h3>Add new detail</h3>
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="phone" ng-model="phone"></input>
+					<input type="text" class="form-control" placeholder="hometown" ng-model="hometown"></input>
+				</div>
+				<button type="submit" class="btn btn-primary">Post</button>
+			</form>
 		</script>
 	</body>
 </html>

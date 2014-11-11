@@ -21,9 +21,9 @@ angular.module('personnel',['ui.router'])
 .factory("people", [function() {
 	var personnel = {
 		people: [
-			{title:'person1', Occupation:'Jr dev'},
-			{title:'person2', Occupation:'Sr dev'},
-			{title:'person3', Occupation:'Delivery Manager'}
+			{title:'person1', Occupation:'Jr dev', details:[]},
+			{title:'person2', Occupation:'Sr dev', details:[]},
+			{title:'person3', Occupation:'Delivery Manager', details:[]}
 		]
 	};
 	return personnel;
@@ -55,10 +55,10 @@ angular.module('personnel',['ui.router'])
 			$scope.people.push(
 				{title: $scope.title, 
 				Occupation: $scope.positions[0],
-				details: [
-					{phone: 555-5555},
-					{hometown: "Bloomfield Hills, Mi"}
-				]
+				details: [{
+					phone: "555-5555",
+					hometown: "Bloomfield Hills, Mi"
+				}]
 			});
 			$scope.title = '';
 		}
@@ -85,4 +85,14 @@ angular.module('personnel',['ui.router'])
 	'people',
 	function($scope,$stateParams,people){
 		$scope.person = people.people[$stateParams.id];
+	
+	$scope.addDetail = function(){
+		if(!$scope.hometown || !$scope.phone){ return; }
+		console.log($scope.person.details);
+		$scope.person.details.push({
+			phone: $scope.phone,
+			hometown: $scope.hometown
+			
+		});
+	}
 }]);
