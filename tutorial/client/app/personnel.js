@@ -89,10 +89,12 @@ angular.module('personnel',['ui.router'])
 	$scope.addDetail = function(){
 		if(!$scope.hometown || !$scope.phone){ return; }
 		console.log($scope.person.details);
+
 		$scope.person.details.push({
 			phone: $scope.phone,
 			hometown: $scope.hometown
 			
 		});
+		$scope.person.details.pop();
 	}
 }]);
